@@ -174,22 +174,17 @@ namespace CSDiscordService.Infrastructure.JsonFormatters
             writer.WriteStringValue(value.FullName);
         }
     }
-
-    public class ByteEnumerableConverterFactory : JsonConverterFactory
+    
+    public class ByteEnumerableJsonConverter : JsonConverter<IEnumerable<byte>>
     {
         public override bool CanConvert(Type typeToConvert) => typeToConvert.GetInterfaces().Contains(typeof(IEnumerable<byte>));
-        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
-            => (JsonConverter)Activator.CreateInstance(typeof(ByteEnumerableJsonConverter<>).MakeGenericType(typeToConvert));
-    }
-    
-    public class ByteEnumerableJsonConverter<T> : JsonConverter<T> where T : IEnumerable<byte>
-    {
-        public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+
+        public override IEnumerable<byte> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
         }
 
-        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, IEnumerable<byte> value, JsonSerializerOptions options)
         {
             ((JsonConverter<IEnumerable<int>>)options.GetConverter(typeof(IEnumerable<int>))).Write(writer, value.Select(int (x) => x), options);
         }

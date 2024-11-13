@@ -44,7 +44,7 @@ namespace CSDiscordService
                     new DirectoryInfoJsonConverter(),
                     new AngouriMathEntityConverter(), new AngouriMathEntityVarsConverter(),
                     new NumberConverter(),
-                    new ByteEnumerableConverterFactory(),
+                    new ByteEnumerableJsonConverter(),
                     new MultidimArrayConverterFactory()
                 }
             };
@@ -72,7 +72,7 @@ namespace CSDiscordService
                 o.JsonSerializerOptions.Converters.Add(new AngouriMathEntityConverter());
                 o.JsonSerializerOptions.Converters.Add(new AngouriMathEntityVarsConverter());
                 o.JsonSerializerOptions.Converters.Add(new NumberConverter());
-                o.JsonSerializerOptions.Converters.Add(new ByteEnumerableConverterFactory());
+                o.JsonSerializerOptions.Converters.Add(new ByteEnumerableJsonConverter());
                 o.JsonSerializerOptions.Converters.Add(new MultidimArrayConverterFactory());
             });
             services.AddSingleton(jsonOptions);
