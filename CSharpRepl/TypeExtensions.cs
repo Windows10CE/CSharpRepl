@@ -20,15 +20,12 @@ namespace CSDiscordService
             return returnTypeName.Replace($"`{args.Length}", $"<{string.Join(", ", returnArgs)}>");
         }
 
-        [GeneratedRegex(@"\[,*\]")]
-        private static partial Regex ArrayRegex { get; }
-
         private static string GetPrimitiveTypeName(Type type)
         {
             var typeName = type.Name;
             if (type.IsArray)
             {
-                typeName = ArrayRegex.Replace(typeName, "");
+                typeName = ParseGenericArgs(type.GetElementType()!);
             }
 
             var returnValue = typeName switch
@@ -47,6 +44,9 @@ namespace CSDiscordService
                 "UInt16" => "ushort",
                 "UInt32" => "uint",
                 "UInt64" => "ulong",
+                "Object" => "object",
+                "IntPtr" => "nint",
+                "UIntPtr" => "nuint",
                 _ => typeName
             };
 
